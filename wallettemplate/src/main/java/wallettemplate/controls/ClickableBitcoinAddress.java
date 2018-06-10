@@ -14,8 +14,8 @@
 
 package wallettemplate.controls;
 
-import org.pivxj.core.Address;
-import org.pivxj.uri.PivxURI;
+import org.wagerrj.core.Address;
+import org.wagerrj.uri.WagerrURI;
 import de.jensd.fx.fontawesome.AwesomeDude;
 import de.jensd.fx.fontawesome.AwesomeIcon;
 import javafx.beans.binding.StringExpression;
@@ -85,7 +85,7 @@ public class ClickableBitcoinAddress extends AnchorPane {
     }
 
     public String uri() {
-        return PivxURI.convertToBitcoinURI(address.get(), null, Main.APP_NAME, null);
+        return WagerrURI.convertToBitcoinURI(address.get(), null, Main.APP_NAME, null);
     }
 
     public Address getAddress() {

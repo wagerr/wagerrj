@@ -1,9 +1,9 @@
 package org.darkcoinj;
 
-import org.pivxj.core.*;
-import org.pivxj.script.Script;
-import org.pivxj.utils.ContextPropagatingThreadFactory;
-import org.pivxj.utils.Threading;
+import org.wagerrj.core.*;
+import org.wagerrj.script.Script;
+import org.wagerrj.utils.ContextPropagatingThreadFactory;
+import org.wagerrj.utils.Threading;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

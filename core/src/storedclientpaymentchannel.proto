@@ -24,7 +24,7 @@
 
 package paymentchannels;
 
-option java_package = "org.pivxj.protocols.channels";
+option java_package = "org.wagerrj.protocols.channels";
 option java_outer_classname = "ClientState";
 
 
