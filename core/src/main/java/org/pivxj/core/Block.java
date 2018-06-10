@@ -272,7 +272,8 @@ public class Block extends Message {
     private static final long START_MASTERNODE_PAYMENTS_1 = 1401033600L; //Sun, 25 May 2014 16:00:00 GMT
     private static final long START_MASTERNODE_PAYMENTS_STOP_1 = 1401134533L; // Mon, 26 May 2014 20:02:13 GMT
 
-    private static final long START_MASTERNODE_PAYMENTS = 1403728576L; //Fri, 20 Jun 2014 16:00:00 GMT
+    //wgr mainnet start masternode payment
+    private static final long START_MASTERNODE_PAYMENTS = 1518696182; /// GMT: Thursday, 15. February 2018 12:03:02
     //private static final long START_MASTERNODE_PAYMENTS_STOP = ?
 
     private static final long START_MASTERNODE_PAYMENTS_TESTNET_1 = 1401757793;

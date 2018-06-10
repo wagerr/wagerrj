@@ -148,7 +148,7 @@ public class ScriptBuilder {
      * 
      * @see #number(int)
      */
-    protected ScriptBuilder bigNum(long num) {
+    public ScriptBuilder bigNum(long num) {
         return bigNum(chunks.size(), num);
     }
 

@@ -495,12 +495,14 @@ public class Peer extends PeerSocketHandler {
         }
 
         // No further communication is possible until version handshake is complete.
-        if (!(m instanceof VersionMessage || m instanceof VersionAck
-                || (versionHandshakeFuture.isDone() && !versionHandshakeFuture.isCancelled()))) {
-            String reason = "  " + ((m instanceof RejectMessage) ? ((RejectMessage) m).getReasonString() : "");
-            throw new ProtocolException(
-                    "Received " + m.getClass().getSimpleName() + " before version handshake is complete."+ reason);
-        }
+        //main.cpp 5763     // Wagerr: We use certain sporks during IBD, so check to see if they are
+        //        // available. If not, ask the first peer connected for them.
+//        if (!(m instanceof VersionMessage || m instanceof VersionAck
+//                || (versionHandshakeFuture.isDone() && !versionHandshakeFuture.isCancelled()))) {
+//            String reason = "  " + ((m instanceof RejectMessage) ? ((RejectMessage) m).getReasonString() : "");
+//            throw new ProtocolException(
+//                    "Received " + m.getClass().getSimpleName() + " before version handshake is complete."+ reason);
+//        }
 
         if (m instanceof Ping) {
             processPing((Ping) m);

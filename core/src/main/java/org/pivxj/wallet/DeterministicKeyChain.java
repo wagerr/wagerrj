@@ -18,10 +18,7 @@
 package org.pivxj.wallet;
 
 import com.google.common.collect.Lists;
-import org.pivxj.core.BloomFilter;
-import org.pivxj.core.ECKey;
-import org.pivxj.core.NetworkParameters;
-import org.pivxj.core.Utils;
+import org.pivxj.core.*;
 import org.pivxj.crypto.*;
 import org.pivxj.script.Script;
 import org.pivxj.utils.Threading;
@@ -123,7 +120,7 @@ public class DeterministicKeyChain implements EncryptableKeyChain {
 
     // PIVX BIP44
     public static final ChildNumber BIP44_MASTER_KEY = new ChildNumber(44, true);
-    public static final ChildNumber PIVX_PATH = new ChildNumber(119,true);
+    public static final ChildNumber PIVX_PATH = new ChildNumber(CoinDefinition.BIP_44_COIN_TYPE,true);
     public static final ImmutableList<ChildNumber> BIP44_ACCOUNT_ZERO_PATH =
             ImmutableList.of(BIP44_MASTER_KEY, PIVX_PATH, ChildNumber.ZERO_HARDENED);
 
