@@ -77,7 +77,7 @@ public class CoinDefinition {
     //
     // PIVX 3.1.0.2
     //
-    public static final int PROTOCOL_VERSION = 70914;          //version.h PROTOCOL_VERSION
+    public static final int PROTOCOL_VERSION = 70918;          //version.h PROTOCOL_VERSION
     public static final int MIN_PROTOCOL_VERSION = 70912;        //version.h MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT
 
     public static final int BLOCK_CURRENTVERSION = 2;   //CBlock::CURRENT_VERSION
@@ -205,7 +205,7 @@ public class CoinDefinition {
         checkpoints.put( 6160, Sha256Hash.wrap("7e7e688ae130d6b0bdfd3f059c6be93ba5e59c0bc28eb13f09e8158092151ad4"));
         checkpoints.put( 12588, Sha256Hash.wrap("d9d1da49888f0d6febbdb02f79dde7fdc20d72a20e6f0d672e9543085cb70ca7"));
         checkpoints.put( 70450, Sha256Hash.wrap("61dc2dbb225de3146bc59ab96dedf48047ece84d004acaf8f386ae7a7d074983"));
-        checkpoints.put( 68899, Sha256Hash.wrap("ea83266a9dfd7cf92a96aa07f86bdf60d45850bd47c175745e71a1aaf60b4091"));
+//        checkpoints.put( 68899, Sha256Hash.wrap("ea83266a9dfd7cf92a96aa07f86bdf60d45850bd47c175745e71a1aaf60b4091"));
 //        checkpoints.put( 74619, Sha256Hash.wrap("000000000011d28f38f05d01650a502cc3f4d0e793fbc26e2a2ca71f07dc3842"));
 //        checkpoints.put( 75095, Sha256Hash.wrap("0000000000193d12f6ad352a9996ee58ef8bdc4946818a5fec5ce99c11b87f0d"));
 //        checkpoints.put( 88805, Sha256Hash.wrap("00000000001392f1652e9bf45cd8bc79dc60fe935277cd11538565b4a94fa85f"));
