@@ -3111,6 +3111,36 @@ public class Wallet extends BaseTaggableObject
         }
     }
 
+    public List<Transaction> getWatchedSpentTransaction(boolean excludeImmatureCoinbases) {
+        lock.lock();
+        keyChainGroupLock.lock();
+        try {
+            LinkedList<Transaction> candidates = Lists.newLinkedList();
+            out: for (Transaction tx : Iterables.concat(spent.values(), pending.values())) {
+                if (excludeImmatureCoinbases && !tx.isMature()) continue;
+                 for (TransactionInput input : tx.getInputs()) {
+                    try {
+                        for (Script watchedScript : watchedScripts) {
+                            if (input.getFromAddress().equals(watchedScript.getToAddress(params))) {
+                                candidates.add(tx);
+                                continue out;
+                            }
+
+                        }
+                    } catch (ScriptException e) {
+                        // Ignore
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+            return candidates;
+        } finally {
+            keyChainGroupLock.unlock();
+            lock.unlock();
+        }
+    }
+
     /**
      * Clean up the wallet. Currently, it only removes risky pending transaction from the wallet and only if their
      * outputs have not been spent.
