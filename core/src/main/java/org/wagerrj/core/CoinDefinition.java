@@ -100,9 +100,8 @@ public class CoinDefinition {
     //
     public static final int AddressHeader = 73;             // chainparams.cpp PUBKEY_ADDRESS Wagerr addresses start with 'W'
     public static final int p2shHeader = 63;             //chainparams.cpp SCRIPT_ADDRESS  Wagerr script addresses start with '7'
-    public static final int privateKeyHeader = 119;     //chainparams.cpp SECRET_KEY
+    public static final int privateKeyHeader = 199;     //chainparams.cpp SECRET_KEY
     public static final long PacketMagic = 0x842d61fd;//chainparams.cpp
-    public static final long testnetPacketMagic = 0x1e0ffff0;      //
 
     //Genesis Block Information from chainparams.cpp
     static public long genesisBlockDifficultyTarget = 0x1e0ffff0;          // chainparams.cpp genesis.nBits
@@ -131,10 +130,12 @@ public class CoinDefinition {
     public static final int testnetAddressHeader = 65;             //chainparams.cpp
     public static final int testnetp2shHeader = 125;             //chainparams.cpp
     public static final int testnetPrivateKeyHeader = 177;             //chainparams.cpp
-    public static final String testnetGenesisHash =  "00000fdc268f54ff1368703792dc046b1356e60914c2b5b6348032144bcb2de5";
+    public static final long testnetPacketMagic = 0x879ed199;      //
+
     static public long testnetGenesisBlockDifficultyTarget = (0x1e0ffff0);          // chainparams.cpp genesis.nBits
     static public long testnetGenesisBlockTime = 1518696182L;                         //chainparams.cpp  genesis.nTime
     static public long testnetGenesisBlockNonce = (75183976);                         //chainparams.cpp   genesis.nNonce
+    public static final String testnetGenesisHash =  "00000fdc268f54ff1368703792dc046b1356e60914c2b5b6348032144bcb2de5";
 
 
 
