@@ -132,7 +132,7 @@ public class CoinDefinition {
     public static final int testnetp2shHeader = 125;             //chainparams.cpp
     public static final int testnetPrivateKeyHeader = 177;             //chainparams.cpp
     public static final String testnetGenesisHash =  "00000fdc268f54ff1368703792dc046b1356e60914c2b5b6348032144bcb2de5";
-    static public long testnetGenesisBlockDifficultyTarget = (0x207fffff);          // chainparams.cpp genesis.nBits
+    static public long testnetGenesisBlockDifficultyTarget = (0x1e0ffff0);          // chainparams.cpp genesis.nBits
     static public long testnetGenesisBlockTime = 1518696182L;                         //chainparams.cpp  genesis.nTime
     static public long testnetGenesisBlockNonce = (75183976);                         //chainparams.cpp   genesis.nNonce
 
@@ -184,7 +184,7 @@ public class CoinDefinition {
     };
     //from chainparams.cpp: CAlert::vAlertPubKey
     public static final String SATOSHI_KEY = "04a6254e2ff57f433b3afa2764d8fffec82899a22fd14de054123f5f6d5dc4c9d011d6b03e35f9b093f1529cfe8324cf516838ff90fa8824be6ceea8fdf856bd64";
-    public static final String TESTNET_SATOSHI_KEY = "04f91dd428ecc5f2bee0aaf073f8a258418a34e6ff42c8454dbb42d02aac6c2596d42e2f63f435c6143f35354fb0f9645c5e158f396091974439184ccdff6e06cd";
+    public static final String TESTNET_SATOSHI_KEY = "04b2d1b19607edcca2fbf1d3238a0200a434900593f7e5e38102e7681465e5785ddcf1a105ee595c51ef3be1bfc8ea9dc14c8c30b2e0edaa5f5d3f57b77f272046";
 
     /** The string returned by getId() for the main, production network where people trade things. */
     public static final String ID_MAINNET = "mainnet";

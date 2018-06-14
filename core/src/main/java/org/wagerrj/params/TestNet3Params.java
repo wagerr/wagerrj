@@ -36,6 +36,10 @@ import static com.google.common.base.Preconditions.checkState;
  * and testing of applications and new Bitcoin versions.
  */
 public class TestNet3Params extends AbstractBitcoinNetParams {
+    public static final int TESTNET_MAJORITY_WINDOW = 100;
+    public static final int TESTNET_MAJORITY_REJECT_BLOCK_OUTDATED = 75;
+    public static final int TESTNET_MAJORITY_ENFORCE_BLOCK_UPGRADE = 51;
+
     public TestNet3Params() {
         super();
         id = ID_TESTNET;
@@ -45,41 +49,42 @@ public class TestNet3Params extends AbstractBitcoinNetParams {
         packetMagic = CoinDefinition.testnetPacketMagic;
         interval = INTERVAL;
         targetTimespan = TARGET_TIMESPAN;
-
         maxTarget = CoinDefinition.proofOfWorkLimit;//Utils.decodeCompactBits(0x1d00ffffL);
-        port = CoinDefinition.TestPort;
+        dumpedPrivateKeyHeader = CoinDefinition.testnetPrivateKeyHeader;//128 + CoinDefinition.testnetAddressHeader;
         addressHeader = CoinDefinition.testnetAddressHeader;
         p2shHeader = CoinDefinition.testnetp2shHeader;
         acceptableAddressCodes = new int[] { addressHeader, p2shHeader };
-        dumpedPrivateKeyHeader = CoinDefinition.testnetPrivateKeyHeader;//128 + CoinDefinition.testnetAddressHeader;
-        genesisBlock.setTime(CoinDefinition.testnetGenesisBlockTime);
+        port = CoinDefinition.TestPort;
+        packetMagic = CoinDefinition.testnetPacketMagic;
+        bip32HeaderPub =  0x3a8061a0; //0x043587cf;
+        bip32HeaderPriv = 0x3a805837;  //0x04358394 ;
         genesisBlock.setDifficultyTarget(CoinDefinition.testnetGenesisBlockDifficultyTarget);
+        genesisBlock.setTime(CoinDefinition.testnetGenesisBlockTime);
         genesisBlock.setNonce(CoinDefinition.testnetGenesisBlockNonce);
         spendableCoinbaseDepth = CoinDefinition.spendableCoinbaseDepth;
         subsidyDecreaseBlockCount = CoinDefinition.subsidyDecreaseBlockCount;
         String genesisHash = genesisBlock.getHashAsString();
+        System.out.println("testnet genesis tx hash: "+genesisHash);
 
         if(CoinDefinition.supportsTestNet)
             checkState(genesisHash.equals(CoinDefinition.testnetGenesisHash));
-        //todo: add alert signing key..
-        //alertSigningKey = HEX.decode(CoinDefinition.TESTNET_SATOSHI_KEY);
+        id = ID_TESTNET;
 
         zerocoinStartedHeight = CoinDefinition.TESTNET_ZEROCOIN_STARTING_BLOCK_HEIGHT;
 
         dnsSeeds = CoinDefinition.testnetDnsSeeds;
 
         addrSeeds = null;
-        bip32HeaderPub =  0x3a8061a0; //0x043587cf;
-        bip32HeaderPriv = 0x3a805837;  //0x04358394 ;
+
 
         strSporkKey = CoinDefinition.TESTNET_SATOSHI_KEY;
 
      //   bip32HeaderPub = 0x043587CF;
      //   bip32HeaderPriv = 0x04358394;
 
-        majorityEnforceBlockUpgrade = TestNet2Params.TESTNET_MAJORITY_ENFORCE_BLOCK_UPGRADE;
-        majorityRejectBlockOutdated = TestNet2Params.TESTNET_MAJORITY_REJECT_BLOCK_OUTDATED;
-        majorityWindow = TestNet2Params.TESTNET_MAJORITY_WINDOW;
+        majorityEnforceBlockUpgrade = TESTNET_MAJORITY_ENFORCE_BLOCK_UPGRADE;
+        majorityRejectBlockOutdated = TESTNET_MAJORITY_REJECT_BLOCK_OUTDATED;
+        majorityWindow = TESTNET_MAJORITY_WINDOW;
 
     }
 
