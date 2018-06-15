@@ -3111,7 +3111,12 @@ public class Wallet extends BaseTaggableObject
         }
     }
 
-    public List<Transaction> getWatchedSpentTransaction(boolean excludeImmatureCoinbases) {
+    /**
+     * For wagerr
+     * Returns all the spent transactions that match addresses or scripts added via {@link #addWatchedAddress(Address)} or
+     *      * {@link #addWatchedScripts(java.util.List)}.
+     */
+    public List<Transaction> getWatchedSpentTransactions(boolean excludeImmatureCoinbases) {
         lock.lock();
         keyChainGroupLock.lock();
         try {
@@ -3137,6 +3142,29 @@ public class Wallet extends BaseTaggableObject
             return candidates;
         } finally {
             keyChainGroupLock.unlock();
+            lock.unlock();
+        }
+    }
+
+    /**
+     * For wagerr
+     * Returns all mine spent transactions
+     */
+    public List<Transaction> getMineSpentTransactions(boolean excludeImmatureCoinbases) {
+        lock.lock();
+        try {
+            List<Transaction> candidates = Lists.newLinkedList();
+            out: for (Transaction tx : Iterables.concat(spent.values(), pending.values())) {
+                if (excludeImmatureCoinbases && !tx.isMature())
+                    continue;
+                for (TransactionInput input : tx.getInputs()) {
+                    if (isPubKeyMine(input.getScriptSig().getPubKey())){
+                        candidates.add(tx); continue out;
+                    }
+                }
+            }
+            return candidates;
+        } finally {
             lock.unlock();
         }
     }
