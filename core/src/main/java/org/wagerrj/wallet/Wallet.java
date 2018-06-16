@@ -3113,6 +3113,34 @@ public class Wallet extends BaseTaggableObject
 
     /**
      * For wagerr
+     * To filter out transacation that is related to watched address(Oracle)
+     */
+    public boolean isTransactionRelatedToWatchedAddress(Transaction tx) {
+        lock.lock();
+        try {
+            for (TransactionInput input : tx.getInputs()) {
+                for (Script watchedScript : watchedScripts) {
+                    if (input.getFromAddress().equals(watchedScript.getToAddress(params))) {
+                        return true;
+                    }
+                }
+            }
+            for (TransactionOutput transactionOutput : tx.getOutputs()) {
+                Script scriptPubKey = transactionOutput.getScriptPubKey();
+                if (scriptPubKey.isOpReturn()) {
+                    continue;
+                }
+                if (watchedScripts.contains(scriptPubKey))
+                    return true;
+            }
+            return false;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
+     * For wagerr
      * Returns all the spent transactions that match addresses or scripts added via {@link #addWatchedAddress(Address)} or
      *      * {@link #addWatchedScripts(java.util.List)}.
      */
@@ -4778,10 +4806,10 @@ public class Wallet extends BaseTaggableObject
      * <p>Gets a bloom filter that contains all of the public keys from this wallet, and which will provide the given
      * false-positive rate if it has size elements. Keep in mind that you will get 2 elements in the bloom filter for
      * each key in the wallet, for the public key and the hash of the public key (address form).</p>
-     * 
+     *
      * <p>This is used to generate a BloomFilter which can be {@link BloomFilter#merge(BloomFilter)}d with another.
      * It could also be used if you have a specific target for the filter's size.</p>
-     * 
+     *
      * <p>See the docs for {@link BloomFilter(int, double)} for a brief explanation of anonymity when using bloom
      * filters.</p>
      */
