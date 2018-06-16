@@ -60,7 +60,7 @@ public abstract class NetworkParameters {
     /** Unit test network. */
     public static final String ID_UNITTESTNET = CoinDefinition.ID_UNITTESTNET; //"com.google.bitcoin.unittest";
     /** The string returned by getId() for regtest mode. */
-    public static final String ID_REGTEST = "org.wagerr.regtest";
+    public static final String ID_REGTEST = CoinDefinition.ID_REGTEST;
 
     /** The string used by the payment protocol to represent the main net. */
     public static final String PAYMENT_PROTOCOL_ID_MAINNET = "main";

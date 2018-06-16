@@ -46,7 +46,6 @@ public class TestNet3Params extends AbstractBitcoinNetParams {
 
         // Genesis hash is
 
-        packetMagic = CoinDefinition.testnetPacketMagic;
         interval = INTERVAL;
         targetTimespan = TARGET_TIMESPAN;
         maxTarget = CoinDefinition.proofOfWorkLimit;//Utils.decodeCompactBits(0x1d00ffffL);

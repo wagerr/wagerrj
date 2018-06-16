@@ -188,11 +188,12 @@ public class CoinDefinition {
     public static final String TESTNET_SATOSHI_KEY = "04b2d1b19607edcca2fbf1d3238a0200a434900593f7e5e38102e7681465e5785ddcf1a105ee595c51ef3be1bfc8ea9dc14c8c30b2e0edaa5f5d3f57b77f272046";
 
     /** The string returned by getId() for the main, production network where people trade things. */
-    public static final String ID_MAINNET = "mainnet";
+    public static final String ID_MAINNET = "com.wagerr.production";
     /** The string returned by getId() for the testnet. */
-    public static final String ID_TESTNET = "testnet";
+    public static final String ID_TESTNET = "com.wagerr.test";
     /** Unit test network. */
-    public static final String ID_UNITTESTNET = "unittest";
+    public static final String ID_UNITTESTNET = "com.wagerr.unittest";
+    public static final String ID_REGTEST = "com.wagerr.regtest";
 
     //chainparams.cpp Checkpoints::mapCheckpoints
     public static void initCheckpoints(Map<Integer, Sha256Hash> checkpoints)
