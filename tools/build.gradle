@@ -1,0 +1,25 @@
+apply plugin: 'java'
+
+dependencies {
+    implementation project(':core')
+    compile "net.sf.jopt-simple:jopt-simple:4.3"
+    compile "org.slf4j:slf4j-jdk14:1.7.20"
+    compile "com.h2database:h2:1.3.167"
+}
+sourceCompatibility = 1.8
+
+task wallet_tool(type: JavaExec) {
+    description = 'Print and manipulate wallets.'
+    main = 'org.wagerrj.tools.WalletTool'
+    if (project.hasProperty('appArgs') && appArgs.length() > 0)
+        args = Arrays.asList(appArgs.split("\\s+"))
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task build_checkpoints(type: JavaExec) {
+    description = 'Create checkpoint files to use with CheckpointManager.'
+    main = 'org.wagerrj.tools.BuildCheckpoints'
+    if (project.hasProperty('appArgs') && appArgs.length() > 0)
+        args = Arrays.asList(appArgs.split("\\s+"))
+    classpath = sourceSets.main.runtimeClasspath
+}

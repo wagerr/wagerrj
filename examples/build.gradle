@@ -1,0 +1,11 @@
+apply plugin: 'java'
+
+dependencies {
+    implementation project(':core')
+    compile "net.sf.jopt-simple:jopt-simple:4.3"
+    compile "org.slf4j:slf4j-jdk14:1.7.20"
+    compile "com.h2database:h2:1.3.167"
+    compile "org.fusesource.leveldbjni:leveldbjni-all:1.8"
+}
+
+sourceCompatibility = 1.8

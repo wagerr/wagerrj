@@ -18,3 +18,5 @@ checkpoints-testnet.txt
 *.log
 *.DS_Store
 checkpoints.txt
+build
+.gradle

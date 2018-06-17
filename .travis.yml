@@ -2,18 +2,17 @@
 sudo: false
 language: java
 jdk: oraclejdk8
-install: true # remove default
+install: true
+# remove default
+  - sudo apt-get -qq update
+  - sudo apt-get install -y protobuf-compiler
 script:
-  - mvn -q clean install -Pno-network
+  - gradle -q clean install
   - jdk_switcher use openjdk6
   - cd orchid
-  - mvn -q clean package
-  - cd ../core
-  - mvn -q clean package -Pno-network
-
-after_success:
-  - cd ../core
-  - mvn jacoco:report coveralls:report
+  - gradle -q clean build
+  - cd core
+  - gradle -q clean build
 
 notifications:
   irc:
