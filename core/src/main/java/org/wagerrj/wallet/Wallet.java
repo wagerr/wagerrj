@@ -3118,20 +3118,31 @@ public class Wallet extends BaseTaggableObject
     public boolean isTransactionRelatedToWatchedAddress(Transaction tx) {
         lock.lock();
         try {
+            //check nput is to watched address
             for (TransactionInput input : tx.getInputs()) {
-                for (Script watchedScript : watchedScripts) {
-                    if (input.getFromAddress().equals(watchedScript.getToAddress(params))) {
-                        return true;
+                if (input.getConnectedOutput()!=null) {
+                    Script scriptPubKey = input.getConnectedOutput().getScriptPubKey();
+                    Address toAddress = scriptPubKey.getToAddress(params, true);
+                    for (Script watchedScript : watchedScripts) {
+                        if(toAddress.equals(watchedScript.getToAddress(params))){
+                            return true;
+                        }
                     }
                 }
             }
+
+            //check output is to watched address
             for (TransactionOutput transactionOutput : tx.getOutputs()) {
                 Script scriptPubKey = transactionOutput.getScriptPubKey();
                 if (scriptPubKey.isOpReturn()) {
                     continue;
                 }
-                if (watchedScripts.contains(scriptPubKey))
-                    return true;
+                Address toAddress = scriptPubKey.getToAddress(params, true);
+                for (Script watchedScript : watchedScripts) {
+                    if(toAddress.equals(watchedScript.getToAddress(params))){
+                        return true;
+                    }
+                }
             }
             return false;
         } finally {
@@ -3148,51 +3159,25 @@ public class Wallet extends BaseTaggableObject
         lock.lock();
         keyChainGroupLock.lock();
         try {
+            //check input is to watched address
             LinkedList<Transaction> candidates = Lists.newLinkedList();
             out: for (Transaction tx : Iterables.concat(spent.values(), pending.values())) {
                 if (excludeImmatureCoinbases && !tx.isMature()) continue;
-                 for (TransactionInput input : tx.getInputs()) {
-                    try {
+                for (TransactionInput input : tx.getInputs()) {
+                    if (input.getConnectedOutput()!=null) {
+                        Script scriptPubKey = input.getConnectedOutput().getScriptPubKey();
+                        Address toAddress = scriptPubKey.getToAddress(params, true);
                         for (Script watchedScript : watchedScripts) {
-                            if (input.getFromAddress().equals(watchedScript.getToAddress(params))) {
+                            if(toAddress.equals(watchedScript.getToAddress(params))){
                                 candidates.add(tx);
-                                continue out;
                             }
-
                         }
-                    } catch (ScriptException e) {
-                        // Ignore
-                        e.printStackTrace();
                     }
-
                 }
             }
             return candidates;
         } finally {
             keyChainGroupLock.unlock();
-            lock.unlock();
-        }
-    }
-
-    /**
-     * For wagerr
-     * Returns all mine spent transactions
-     */
-    public List<Transaction> getMineSpentTransactions(boolean excludeImmatureCoinbases) {
-        lock.lock();
-        try {
-            List<Transaction> candidates = Lists.newLinkedList();
-            out: for (Transaction tx : Iterables.concat(spent.values(), pending.values())) {
-                if (excludeImmatureCoinbases && !tx.isMature())
-                    continue;
-                for (TransactionInput input : tx.getInputs()) {
-                    if (isPubKeyMine(input.getScriptSig().getPubKey())){
-                        candidates.add(tx); continue out;
-                    }
-                }
-            }
-            return candidates;
-        } finally {
             lock.unlock();
         }
     }
