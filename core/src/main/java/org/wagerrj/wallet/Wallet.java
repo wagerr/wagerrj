@@ -3183,6 +3183,34 @@ public class Wallet extends BaseTaggableObject
     }
 
     /**
+     * For wagerr
+     * Returns all the spent transactions that from the wallet we have private key
+     */
+    public List<Transaction> getMineSpentTransactions(boolean excludeImmatureCoinbases) {
+        lock.lock();
+        keyChainGroupLock.lock();
+        try {
+            //check input is to watched address
+            LinkedList<Transaction> candidates = Lists.newLinkedList();
+            for (Transaction tx : Iterables.concat(spent.values(), pending.values())) {
+                if (excludeImmatureCoinbases && !tx.isMature()) continue;
+                for (TransactionInput input : tx.getInputs()) {
+                    if (input.getConnectedOutput()!=null) {
+                        boolean isMine = input.getConnectedOutput().isMine(this);
+                        if(isMine){
+                            candidates.add(tx);
+                        }
+                    }
+                }
+            }
+            return candidates;
+        } finally {
+            keyChainGroupLock.unlock();
+            lock.unlock();
+        }
+    }
+
+    /**
      * Clean up the wallet. Currently, it only removes risky pending transaction from the wallet and only if their
      * outputs have not been spent.
      */
