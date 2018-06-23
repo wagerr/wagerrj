@@ -3192,7 +3192,7 @@ public class Wallet extends BaseTaggableObject
         try {
             //check input is to watched address
             LinkedList<Transaction> candidates = Lists.newLinkedList();
-            for (Transaction tx : Iterables.concat(spent.values(), pending.values())) {
+            for (Transaction tx : getTransactions(true)) {
                 if (excludeImmatureCoinbases && !tx.isMature()) continue;
                 for (TransactionInput input : tx.getInputs()) {
                     if (input.getConnectedOutput()!=null) {
