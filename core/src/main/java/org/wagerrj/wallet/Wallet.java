@@ -3161,7 +3161,7 @@ public class Wallet extends BaseTaggableObject
         try {
             //check input is to watched address
             LinkedList<Transaction> candidates = Lists.newLinkedList();
-            out: for (Transaction tx : Iterables.concat(spent.values(), pending.values())) {
+            out: for (Transaction tx : getTransactions(true)) {
                 if (excludeImmatureCoinbases && !tx.isMature()) continue;
                 for (TransactionInput input : tx.getInputs()) {
                     if (input.getConnectedOutput()!=null) {
@@ -3170,6 +3170,7 @@ public class Wallet extends BaseTaggableObject
                         for (Script watchedScript : watchedScripts) {
                             if(toAddress.equals(watchedScript.getToAddress(params))){
                                 candidates.add(tx);
+                                continue out;
                             }
                         }
                     }
@@ -3192,13 +3193,14 @@ public class Wallet extends BaseTaggableObject
         try {
             //check input is to watched address
             LinkedList<Transaction> candidates = Lists.newLinkedList();
-            for (Transaction tx : getTransactions(true)) {
+            out: for (Transaction tx : getTransactions(true)) {
                 if (excludeImmatureCoinbases && !tx.isMature()) continue;
                 for (TransactionInput input : tx.getInputs()) {
                     if (input.getConnectedOutput()!=null) {
                         boolean isMine = input.getConnectedOutput().isMine(this);
                         if(isMine){
                             candidates.add(tx);
+                            continue out;
                         }
                     }
                 }
