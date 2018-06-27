@@ -20,3 +20,4 @@ checkpoints-testnet.txt
 checkpoints.txt
 build
 .gradle
+out/

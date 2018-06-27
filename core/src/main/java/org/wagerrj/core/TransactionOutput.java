@@ -336,6 +336,10 @@ public class TransactionOutput extends ChildMessage {
         }
     }
 
+    public boolean isEmpty() {
+        return (value == 0 && scriptPubKey.toString().isEmpty());
+    }
+
     /**
      * Returns a human readable debug string.
      */

@@ -610,6 +610,18 @@ public class Transaction extends ChildMessage {
         return inputs.size() == 1 && inputs.get(0).isCoinBase();
     }
 
+    //Only used for spv wallet, so we don't check (!vin[0].prevout.IsNull())
+    public boolean isCoinStake() {
+        // ppcoin: the coin stake transaction is marked with the first output empty
+        return inputs.size() > 0 && outputs.size() >= 2 && outputs.get(0).isEmpty();
+    }
+
+    //Only used for spv wallet, so we don't check vin[0].prevout.IsNull()
+    public boolean isZerocoinSpend() {
+        return inputs.size() > 0 && inputs.get(0).getConnectedOutput() == null
+                && inputs.get(0).isZcspend();
+    }
+    
     /**
      * A transaction is mature if it is either a building coinbase tx that is as deep or deeper than the required coinbase depth, or a non-coinbase tx.
      */
