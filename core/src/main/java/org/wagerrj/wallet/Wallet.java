@@ -3137,6 +3137,10 @@ public class Wallet extends BaseTaggableObject
                 if (scriptPubKey.isOpReturn()) {
                     continue;
                 }
+                if (transactionOutput.isEmpty()) {
+                    //coinstake sign
+                    continue;
+                }
                 Address toAddress = scriptPubKey.getToAddress(params, true);
                 for (Script watchedScript : watchedScripts) {
                     if(toAddress.equals(watchedScript.getToAddress(params))){
