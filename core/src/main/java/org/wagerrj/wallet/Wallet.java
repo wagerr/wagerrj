@@ -1838,8 +1838,28 @@ public class Wallet extends BaseTaggableObject
         lock.lock();
         try {
             return tx.getValueSentFromMe(this).signum() > 0 ||
-                   tx.getValueSentToMe(this).signum() > 0 ||
-                   !findDoubleSpendsAgainst(tx, transactions).isEmpty();
+                    tx.getValueSentToMe(this).signum() > 0 ||
+                    !findDoubleSpendsAgainst(tx, transactions).isEmpty();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public boolean isTransactionRelevantToMe(Transaction tx) throws ScriptException {
+        lock.lock();
+        try {
+            return tx.getValueSentFromMe(this, false).signum() > 0 ||
+                    tx.getValueSentToMe(this, false).signum() > 0;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public boolean isTransactionRelevantToWatched(Transaction tx) throws ScriptException {
+        lock.lock();
+        try {
+            return tx.getValueSentFromWatched(this).signum() > 0 ||
+                    tx.getValueSentToWatched(this).signum() > 0;
         } finally {
             lock.unlock();
         }
@@ -3101,111 +3121,6 @@ public class Wallet extends BaseTaggableObject
                         candidates.add(output);
                     } catch (ScriptException e) {
                         // Ignore
-                    }
-                }
-            }
-            return candidates;
-        } finally {
-            keyChainGroupLock.unlock();
-            lock.unlock();
-        }
-    }
-
-    /**
-     * For wagerr
-     * To filter out transacation that is related to watched address(Oracle)
-     */
-    public boolean isTransactionRelatedToWatchedAddress(Transaction tx) {
-        lock.lock();
-        try {
-            //check nput is to watched address
-            for (TransactionInput input : tx.getInputs()) {
-                if (input.getConnectedOutput()!=null) {
-                    Script scriptPubKey = input.getConnectedOutput().getScriptPubKey();
-                    Address toAddress = scriptPubKey.getToAddress(params, true);
-                    for (Script watchedScript : watchedScripts) {
-                        if(toAddress.equals(watchedScript.getToAddress(params))){
-                            return true;
-                        }
-                    }
-                }
-            }
-
-            //check output is to watched address
-            for (TransactionOutput transactionOutput : tx.getOutputs()) {
-                Script scriptPubKey = transactionOutput.getScriptPubKey();
-                if (scriptPubKey.isOpReturn()) {
-                    continue;
-                }
-                if (transactionOutput.isEmpty()) {
-                    //coinstake sign
-                    continue;
-                }
-                Address toAddress = scriptPubKey.getToAddress(params, true);
-                for (Script watchedScript : watchedScripts) {
-                    if(toAddress.equals(watchedScript.getToAddress(params))){
-                        return true;
-                    }
-                }
-            }
-            return false;
-        } finally {
-            lock.unlock();
-        }
-    }
-
-    /**
-     * For wagerr
-     * Returns all the spent transactions that match addresses or scripts added via {@link #addWatchedAddress(Address)} or
-     *      * {@link #addWatchedScripts(java.util.List)}.
-     */
-    public List<Transaction> getWatchedSpentTransactions(boolean excludeImmatureCoinbases) {
-        lock.lock();
-        keyChainGroupLock.lock();
-        try {
-            //check input is to watched address
-            LinkedList<Transaction> candidates = Lists.newLinkedList();
-            out: for (Transaction tx : getTransactions(true)) {
-                if (excludeImmatureCoinbases && !tx.isMature()) continue;
-                for (TransactionInput input : tx.getInputs()) {
-                    if (input.getConnectedOutput()!=null) {
-                        Script scriptPubKey = input.getConnectedOutput().getScriptPubKey();
-                        Address toAddress = scriptPubKey.getToAddress(params, true);
-                        for (Script watchedScript : watchedScripts) {
-                            if(toAddress.equals(watchedScript.getToAddress(params))){
-                                candidates.add(tx);
-                                continue out;
-                            }
-                        }
-                    }
-                }
-            }
-            return candidates;
-        } finally {
-            keyChainGroupLock.unlock();
-            lock.unlock();
-        }
-    }
-
-    /**
-     * For wagerr
-     * Returns all the spent transactions that from the wallet we have private key
-     */
-    public List<Transaction> getMineSpentTransactions(boolean excludeImmatureCoinbases) {
-        lock.lock();
-        keyChainGroupLock.lock();
-        try {
-            //check input is to watched address
-            LinkedList<Transaction> candidates = Lists.newLinkedList();
-            out: for (Transaction tx : getTransactions(true)) {
-                if (excludeImmatureCoinbases && !tx.isMature()) continue;
-                for (TransactionInput input : tx.getInputs()) {
-                    if (input.getConnectedOutput()!=null) {
-                        boolean isMine = input.getConnectedOutput().isMine(this);
-                        if(isMine){
-                            candidates.add(tx);
-                            continue out;
-                        }
                     }
                 }
             }

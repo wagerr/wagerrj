@@ -290,6 +290,30 @@ public class Transaction extends ChildMessage {
         return v;
     }
 
+    public Coin getValueSentToMe(TransactionBag transactionBag, boolean includeWatched) {
+        // This is tested in WalletTest.
+        Coin v = Coin.ZERO;
+        for (TransactionOutput o : outputs) {
+            if (includeWatched) {
+                if (!o.isMineOrWatched(transactionBag)) continue;
+            } else {
+                if (!o.isMine(transactionBag)) continue;
+            }
+            v = v.add(o.getValue());
+        }
+        return v;
+    }
+
+    public Coin getValueSentToWatched(TransactionBag transactionBag) {
+        // This is tested in WalletTest.
+        Coin v = Coin.ZERO;
+        for (TransactionOutput o : outputs) {
+            if (!o.isWatched(transactionBag)) continue;
+            v = v.add(o.getValue());
+        }
+        return v;
+    }
+
     /**
      * Returns a map of block [hashes] which contain the transaction mapped to relativity counters, or null if this
      * transaction doesn't have that data because it's not stored in the wallet or because it has never appeared in a
@@ -368,6 +392,55 @@ public class Transaction extends ChildMessage {
             // The connected output may be the change to the sender of a previous input sent to this wallet. In this
             // case we ignore it.
             if (!connected.isMineOrWatched(wallet))
+                continue;
+            v = v.add(connected.getValue());
+        }
+        return v;
+    }
+
+    public Coin getValueSentFromMe(TransactionBag wallet, boolean includeWatched) throws ScriptException {
+        // This is tested in WalletTest.
+        Coin v = Coin.ZERO;
+        for (TransactionInput input : inputs) {
+            // This input is taking value from a transaction in our wallet. To discover the value,
+            // we must find the connected transaction.
+            TransactionOutput connected = input.getConnectedOutput(wallet.getTransactionPool(Pool.UNSPENT));
+            if (connected == null)
+                connected = input.getConnectedOutput(wallet.getTransactionPool(Pool.SPENT));
+            if (connected == null)
+                connected = input.getConnectedOutput(wallet.getTransactionPool(Pool.PENDING));
+            if (connected == null)
+                continue;
+            // The connected output may be the change to the sender of a previous input sent to this wallet. In this
+            // case we ignore it.
+            if (includeWatched) {
+                if (!connected.isMineOrWatched(wallet))
+                    continue;
+            } else {
+                if (!connected.isMine(wallet))
+                    continue;
+            }
+            v = v.add(connected.getValue());
+        }
+        return v;
+    }
+
+    public Coin getValueSentFromWatched(TransactionBag wallet) throws ScriptException {
+        // This is tested in WalletTest.
+        Coin v = Coin.ZERO;
+        for (TransactionInput input : inputs) {
+            // This input is taking value from a transaction in our wallet. To discover the value,
+            // we must find the connected transaction.
+            TransactionOutput connected = input.getConnectedOutput(wallet.getTransactionPool(Pool.UNSPENT));
+            if (connected == null)
+                connected = input.getConnectedOutput(wallet.getTransactionPool(Pool.SPENT));
+            if (connected == null)
+                connected = input.getConnectedOutput(wallet.getTransactionPool(Pool.PENDING));
+            if (connected == null)
+                continue;
+            // The connected output may be the change to the sender of a previous input sent to this wallet. In this
+            // case we ignore it.
+            if (!connected.isWatched(wallet))
                 continue;
             v = v.add(connected.getValue());
         }
