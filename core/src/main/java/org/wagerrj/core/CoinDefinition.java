@@ -77,8 +77,8 @@ public class CoinDefinition {
     //
     // wagerr 3.1.0.2
     //
-    public static final int PROTOCOL_VERSION = 70918;          //version.h PROTOCOL_VERSION
-    public static final int MIN_PROTOCOL_VERSION = 70916;        //version.h MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT
+    public static final int PROTOCOL_VERSION = 70921;          //version.h PROTOCOL_VERSION
+    public static final int MIN_PROTOCOL_VERSION = 70921;        //version.h MIN_PEER_PROTO_VERSION_BEFORE_ENFORCEMENT
 
     public static final int BLOCK_CURRENTVERSION = 2;   //CBlock::CURRENT_VERSION
     public static final int MAX_BLOCK_SIZE = 1 * 1000 * 1000; //block.h MAX_BLOCK_SIZE_LEGACY
