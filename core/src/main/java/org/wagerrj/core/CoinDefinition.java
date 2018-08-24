@@ -93,7 +93,7 @@ public class CoinDefinition {
     public static final long TESTNET_ZEROCOIN_STARTING_BLOCK_HEIGHT = 1;//main.cpp WagerrTor -  our blocks are in version 4 since block 1
     public static final long MAINNET_ZEROCOIN_STARTING_BLOCK_HEIGHT = 1;
 
-    public static final int BIP_44_COIN_TYPE = 1; //https://github.com/satoshilabs/slips/blob/master/slip-0044.md todo
+    public static final int BIP_44_COIN_TYPE = 7825266;  //776772 https://github.com/satoshilabs/slips/blob/master/slip-0044.md
 
     //
     //  Production
