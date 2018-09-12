@@ -69,8 +69,8 @@ public class CoinDefinition {
     public static final long MAX_COINS = 398360470; //chainparams.cpp:  nMaxMoneyOut  Max. Money is calculated by 2x premine value
 
 
-    public static final long DEFAULT_MIN_TX_FEE = 10000;   // wallet.cpp CFeeRate CWallet::minTxFee = CFeeRate(10000);
-    public static final long DUST_LIMIT = 5460; //transaction.h IsDust 5460 uwgr
+    public static final long DEFAULT_MIN_TX_FEE = 100000;   // wallet.cpp CFeeRate CWallet::minTxFee = CFeeRate(10000);
+    public static final long DUST_LIMIT = 54600; //transaction.h IsDust 5460 uwgr
     public static final long INSTANTX_FEE = 100000; //0.001 DASH (updated for 12.1)
     public static final boolean feeCanBeRaised = false;
 
