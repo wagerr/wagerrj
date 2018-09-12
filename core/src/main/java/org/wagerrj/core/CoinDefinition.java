@@ -184,8 +184,8 @@ public class CoinDefinition {
             "test.devseeder2.wgr.host"
     };
     //from chainparams.cpp: CAlert::vAlertPubKey
-    public static final String SATOSHI_KEY = "04a6254e2ff57f433b3afa2764d8fffec82899a22fd14de054123f5f6d5dc4c9d011d6b03e35f9b093f1529cfe8324cf516838ff90fa8824be6ceea8fdf856bd64";
-    public static final String TESTNET_SATOSHI_KEY = "04b2d1b19607edcca2fbf1d3238a0200a434900593f7e5e38102e7681465e5785ddcf1a105ee595c51ef3be1bfc8ea9dc14c8c30b2e0edaa5f5d3f57b77f272046";
+    public static final String SATOSHI_KEY = "043cb569d89fb78fc61df67617012e6c33c1ba306f4620bbb89424279a4931adf4a9e238db60aa7f78cd10ef780f21f1fd3b881f014fd0f656db4b6a6a98f0cff2";
+    public static final String TESTNET_SATOSHI_KEY = "0466223434350e5754c7379008e82954820a4bcc17335c42b915a0223c486e8bbbf87ba6281777d19ec73dc0b43416b33df432e3f4685770e56f9688afec7c2e3c";
 
     /** The string returned by getId() for the main, production network where people trade things. */
     public static final String ID_MAINNET = "com.wagerr.production";
