@@ -66,6 +66,7 @@ public class CoinDefinition {
     }
 
     public static int spendableCoinbaseDepth = 100; //main.h: static const int COINBASE_MATURITY
+    public static int testNetSpendableCoinbaseDepth = 15; //main.h: static const int COINBASE_MATURITY
     public static final long MAX_COINS = 398360470; //chainparams.cpp:  nMaxMoneyOut  Max. Money is calculated by 2x premine value
 
 

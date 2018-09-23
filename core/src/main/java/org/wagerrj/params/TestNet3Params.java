@@ -17,17 +17,12 @@
 
 package org.wagerrj.params;
 
-import org.wagerrj.core.CoinDefinition;
+import org.wagerrj.core.*;
+import org.wagerrj.store.BlockStore;
+import org.wagerrj.store.BlockStoreException;
 
 import java.math.BigInteger;
 import java.util.Date;
-
-import org.wagerrj.core.Block;
-import org.wagerrj.core.NetworkParameters;
-import org.wagerrj.core.StoredBlock;
-import org.wagerrj.core.VerificationException;
-import org.wagerrj.store.BlockStore;
-import org.wagerrj.store.BlockStoreException;
 
 import static com.google.common.base.Preconditions.checkState;
 
@@ -60,7 +55,7 @@ public class TestNet3Params extends AbstractBitcoinNetParams {
         genesisBlock.setDifficultyTarget(CoinDefinition.testnetGenesisBlockDifficultyTarget);
         genesisBlock.setTime(CoinDefinition.testnetGenesisBlockTime);
         genesisBlock.setNonce(CoinDefinition.testnetGenesisBlockNonce);
-        spendableCoinbaseDepth = CoinDefinition.spendableCoinbaseDepth;
+        spendableCoinbaseDepth = CoinDefinition.testNetSpendableCoinbaseDepth;
         subsidyDecreaseBlockCount = CoinDefinition.subsidyDecreaseBlockCount;
         String genesisHash = genesisBlock.getHashAsString();
         System.out.println("testnet genesis tx hash: "+genesisHash);

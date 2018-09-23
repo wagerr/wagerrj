@@ -17,6 +17,12 @@
 
 package org.wagerrj.core;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.primitives.Ints;
+import com.google.common.primitives.Longs;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.spongycastle.util.encoders.Hex;
 import org.wagerrj.core.TransactionConfidence.ConfidenceType;
 import org.wagerrj.crypto.TransactionSignature;
 import org.wagerrj.script.Script;
@@ -27,21 +33,16 @@ import org.wagerrj.utils.ExchangeRate;
 import org.wagerrj.wallet.Wallet;
 import org.wagerrj.wallet.WalletTransaction.Pool;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.primitives.Ints;
-import com.google.common.primitives.Longs;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.spongycastle.util.encoders.Hex;
-
 import javax.annotation.Nullable;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.math.BigInteger;
 import java.util.*;
 
-import static org.wagerrj.core.Utils.*;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
-import java.math.BigInteger;
+import static org.wagerrj.core.Utils.uint32ToByteStreamLE;
 
 /**
  * <p>A transaction represents the movement of coins from some addresses to some other addresses. It can also represent
@@ -699,7 +700,7 @@ public class Transaction extends ChildMessage {
      * A transaction is mature if it is either a building coinbase tx that is as deep or deeper than the required coinbase depth, or a non-coinbase tx.
      */
     public boolean isMature() {
-        if (!isCoinBase())
+        if (!(isCoinBase() || isCoinStake()))
             return true;
 
         if (getConfidence().getConfidenceType() != ConfidenceType.BUILDING)
