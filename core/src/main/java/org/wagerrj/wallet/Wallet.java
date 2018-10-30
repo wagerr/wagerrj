@@ -5165,6 +5165,7 @@ public class Wallet extends BaseTaggableObject
         // Now use it to upload any pending transactions we have that are marked as not being seen by any peers yet.
         // Don't hold the wallet lock whilst doing this, so if the broadcaster accesses the wallet at some point there
         // is no inversion.
+        outer:
         for (Transaction tx : toBroadcast) {
             ConfidenceType confidenceType = tx.getConfidence().getConfidenceType();
             if(confidenceType == ConfidenceType.UNKNOWN /*&& tx.getConfidence().getSource() == Source.SELF*/)
@@ -5175,6 +5176,15 @@ public class Wallet extends BaseTaggableObject
                 continue;
 
             }
+
+            // skip betting transaction for wagerr
+            for (TransactionOutput transactionOutput : tx.getOutputs()) {
+                if (transactionOutput.getScriptPubKey().isOpReturn()) {
+                    log.error("A pending betting transaction, ignore here", tx.toString());
+                    continue outer;
+                }
+            }
+
             checkState(confidenceType == ConfidenceType.PENDING || confidenceType == ConfidenceType.IN_CONFLICT,
                     "Expected PENDING or IN_CONFLICT, was %s.", confidenceType);
             // Re-broadcast even if it's marked as already seen for two reasons
