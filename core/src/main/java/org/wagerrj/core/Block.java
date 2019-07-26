@@ -526,7 +526,7 @@ public class Block extends Message {
         if (!ACTIVATE_ZEROCOIN) {
             return false;
         }else {
-            return version == ZEROCOIN_BLOCK_VERSION;
+            return version == ZEROCOIN_BLOCK_VERSION || version == 5;
         }
     }
 
@@ -541,7 +541,7 @@ public class Block extends Message {
         if (!ACTIVATE_ZEROCOIN) {
             return Block.HEADER_SIZE;
         }else {
-            return Block.ZEROCOIN_BLOCK_VERSION == version ? ZEROCOIN_HEADER_SIZE : HEADER_SIZE;
+            return Block.ZEROCOIN_BLOCK_VERSION == version || version == 5   ? ZEROCOIN_HEADER_SIZE : HEADER_SIZE;
         }
     }
 
